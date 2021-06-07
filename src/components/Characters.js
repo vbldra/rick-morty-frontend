@@ -24,6 +24,27 @@ function Characters() {
 
     const classes = useStyles()
 
+    const collect = async characterId => {
+        console.log("collect", characterId)
+        const res = await fetch('/characters/collect', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({character: characterId})
+        })
+        const data = await res.json()
+        if(data.collected) {
+            const updatedList = characters.map(it => {
+                if(it.id == data.collected) {
+                    it.collected = true
+                }
+                return it
+            })
+            setCharacters(updatedList)
+        }
+    }
+
     return (
         <div>
             <ul>
@@ -45,8 +66,8 @@ function Characters() {
                         </CardContent>
                         </CardActionArea>
                         <CardActions>
-                        <Button size="small" color="primary">
-                            Share
+                        <Button onClick={() => collect(character.id)} size="small" color="primary">
+                            {character.collected ? 'Collected' : 'Collect'}
                         </Button>
                         <Button size="small" color="primary">
                             Learn More
