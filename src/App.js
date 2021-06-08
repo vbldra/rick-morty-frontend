@@ -37,6 +37,8 @@ function App() {
     }
   }
 
+  // test
+
   const [characters, dispatch] = useReducer(charactersReducer, {
       randomCharacters: [],
       collected: []
