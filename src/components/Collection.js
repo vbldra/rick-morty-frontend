@@ -1,20 +1,14 @@
 import { ListItemAvatar } from '@material-ui/core'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useContext } from 'react'
+
+import { charactersContext } from '../App'
 
 const Collection = () => {
-    const [characters, setCharacters] = useState([])
-    useEffect(() => {
-        async function loadCharacters() {
-            const res = await fetch('/characters/collection')
-            const data = await res.json()
-            setCharacters(data)
-        }
-        loadCharacters()
-    }, [])
+    const { characters } = useContext(charactersContext)
 
     return (
         <ul>
-            {characters.map(item => <li>{item.name}</li>)}
+            {characters.collected.map(item => <li>{item.name}</li>)}
         </ul>
     )
 }

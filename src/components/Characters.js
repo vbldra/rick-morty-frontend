@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useContext } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { Card, CardActionArea, CardActions, CardContent, CardMedia, Typography, Button } from '@material-ui/core'
+
+import { charactersContext } from '../App'
 
 const useStyles = makeStyles({
     root: {
@@ -12,15 +14,7 @@ const useStyles = makeStyles({
 });
 
 function Characters() {
-    const [characters, setCharacters] = useState([])
-    useEffect(() => {
-        async function loadCharacters() {
-            const res = await fetch('/characters')
-            const data = await res.json()
-            setCharacters(data)
-        }
-        loadCharacters()
-    }, [])
+    const {characters, dispatch} = useContext(charactersContext)
 
     const classes = useStyles()
 
@@ -34,21 +28,13 @@ function Characters() {
             body: JSON.stringify({character: characterId})
         })
         const data = await res.json()
-        if(data.collected) {
-            const updatedList = characters.map(it => {
-                if(it.id == data.collected) {
-                    it.collected = true
-                }
-                return it
-            })
-            setCharacters(updatedList)
-        }
+        dispatch({type: 'resetCollection', payload: data})
     }
 
     return (
         <div>
             <ul>
-                {characters.map(character => 
+                {characters.randomCharacters.map(character => 
                     <Card className={classes.root}>
                         <CardActionArea>
                         <CardMedia
