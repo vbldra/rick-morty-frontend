@@ -7,6 +7,7 @@ import { Route, NavLink } from "react-router-dom";
 /** COMPONENTS */
 import Characters from './components/Characters'
 import Collection from './components/Collection'
+import Registration from './components/Registration'
 
 export const charactersContext = React.createContext(null)
 
@@ -65,12 +66,16 @@ function App() {
         <div>
           <Button component={NavLink} to="/">Home</Button>
           <Button component={NavLink} to="/collection">Collection</Button>
+          <Button component={NavLink} to="/register">Sign in</Button>
         </div>
         <Route path="/" exact>
           <Characters />
         </Route>
         <Route path="/collection">
           <Collection />
+        </Route>
+        <Route path="/register">
+          <Registration />
         </Route>
       </div>
     </charactersContext.Provider>
